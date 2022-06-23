@@ -44,7 +44,7 @@ https://docs.microsoft.com/en-us/azure/developer/terraform/get-started-windows-p
 
 # The topology of the project
 
-![This is an image](https://bootcamp.rhinops.io/images/week-4-project-env.png)
+![This is an image](https://bootcamp.rhinops.io/images/week-6-envs.png)
 
 
 # Project overview
