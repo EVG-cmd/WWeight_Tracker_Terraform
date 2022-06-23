@@ -1,0 +1,11 @@
+[staging_servers]
+
+linux0 ansible_host=20.120.119.112 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}
+linux1 ansible_host=20.120.119.112 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}
+linux2 ansible_host=20.120.119.112 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}
+
+[Production]
+
+linux0 ansible_host=20.230.172.129 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}
+linux1 ansible_host=20.230.172.129 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}
+linux2 ansible_host=20.230.172.129 ansible_ssh_port={{ VARIBLE }} ansible_user={{ VARIBLE }} ansible_ssh_pass={{ VARIBLE }}

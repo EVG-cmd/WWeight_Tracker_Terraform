@@ -1,0 +1,62 @@
+---
+  ###test your Connection to your Servers####
+  - name: Test Connection to Servers
+    hosts: all
+    become: yes
+    tasks:
+    - name: Ping my Servers
+      ping:
+
+  ###install apps & and deploy to Servers####
+ - hosts: all
+   tasks:
+   - name: Clone a github repository
+     git:
+       repo: https://github.com/EVG-cmd/bootcamp-app.git
+       dest: bootcamp
+       clone: yes
+       update: yes
+ - name: Creating a file with content
+   copy:
+     dest: "/home/bootcamp"
+     content: |
+     # Host configuration
+     PORT=8080
+     HOST=10.0.1.4
+     NODE_ENV=development
+     HOST_URL=http://20.120.119.112:8080
+     COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong!
+
+     # Okta configuration
+     OKTA_ORG_URL="https://dev-74359837.okta.com"
+     OKTA_CLIENT_ID="0oa54yuietA2Vezuz5d7"
+     OKTA_CLIENT_SECRET="xOdxDEy8oaTOrtWi_erlSL3wWhS-beapIifper-9"
+
+     # Postgres configuration
+     PGHOST={{ GPHOST }}
+     PGUSERNAME={{ USERMANE }}
+     PGDATABASE=postgres
+     PGPASSWORD={{ PGPASSWORD }}
+     PGPORT=5432
+  - name: Install packages based .json
+    npm:
+      path: /home/bootcamp/
+  - name: Install nodemon
+    become: yes
+    ansible.build.shell: cd /home/bootcamp/ "npm Install --save-dev nodemon@2"
+  - name: run initdb
+    run_once: true
+    become: yes
+    command: chdir~ /home/bootcamp/ npm run initdb
+  - name: Install pm2
+    become: yes
+    command: "sudo npm install pm2@latest -g"
+  -name: pm2 start index.js
+    pm2:
+    name: index.js
+    config: /home/bootcamp/src/
+  - name: run app
+    become: yes
+    config: sudo env PATH=$PATH:/usr/bin /usr/local/lib/node_modules/pm2/bin/pm2 startup systemd -u evgeny --hp /home/evgeny
+    name: save app in pm2 startup
+    command: "pm2 save"
