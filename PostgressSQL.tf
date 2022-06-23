@@ -2,6 +2,7 @@ resource "azurerm_subnet_network_security_group_association" "Sub_Nsg" {
   subnet_id                 = azurerm_subnet.PSQL_SUB.id
   network_security_group_id = azurerm_network_security_group.Public_Nsg.id
 }
+
 resource "azurerm_subnet_network_security_group_association" "Sub_Nsg_app" {
   subnet_id                 = azurerm_subnet.Sub_net.id
   network_security_group_id = azurerm_network_security_group.Public_Nsg.id
@@ -45,4 +46,3 @@ resource "azurerm_postgresql_flexible_server_configuration" "postgres_configurat
   value     = "off"
 
 }
-

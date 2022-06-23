@@ -6,13 +6,13 @@ module "VM_MACHINES" {
   subnet_id = azurerm_subnet.Sub_net.id
 }
 # Create a Resource_Group
-resource "azurerm_resource_group" "Weight_Tracker" {
+resource "azurerm_resource_group" "Weight_Tracker_Production" {
   name     = var.resource_group_name
   location = var.resource_group_location
 }
 # Create a virtual network
 resource "azurerm_virtual_network" "Vnet" {
-  depends_on          = [azurerm_resource_group.Weight_Tracker]
+  depends_on          = [azurerm_resource_group.Weight_Tracker_Production]
   name                = "vnet"
   address_space       = ["10.0.0.0/16"]
   location            = var.resource_group_location
@@ -59,7 +59,7 @@ resource "azurerm_network_security_group" "Public_Nsg" {
   }
 
 }
-# Create a network security group
+# Create a Security_Group for PostgresSQL
 resource "azurerm_network_security_group" "NSG_PSQL" {
   name                = "nsg_psql"
   location            = var.resource_group_location
@@ -90,6 +90,7 @@ resource "azurerm_network_security_group" "NSG_PSQL" {
   }
 # Create a Network_interface to security groups
 resource "azurerm_network_interface_security_group_association" "public_assoc" {
+
   count                     = 3
   network_interface_id      = module.VM_MACHINES.nics_id[count.index]
   network_security_group_id = azurerm_network_security_group.Public_Nsg.id
@@ -177,7 +178,7 @@ resource "azurerm_lb_rule" "LoadBlRule8080" {
 }
 # Create a Backend_Address_Pool
 resource "azurerm_lb_backend_address_pool" "Back_Pool" {
-  depends_on      = [azurerm_resource_group.Weight_Tracker]
+  depends_on      = [azurerm_resource_group.Weight_Tracker_Production]
   loadbalancer_id = azurerm_lb.LB.id
   name            = "BackEndAddressPool"
 }
